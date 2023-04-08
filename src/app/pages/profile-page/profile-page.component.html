@@ -1,0 +1,29 @@
+<div class="d-flex flex-column align-items-center bg-scape-image">
+  <div *ngIf="role === 'ROLE_USER' ">
+    <h3 class="text-white mb-3" *ngIf="user">Reservas de {{user.name}} {{user.surname}}</h3>
+    <div class="m-2" *ngFor="let booking of bookings">
+      <div class="card bg-dark text-white" style="width: 22rem;">
+        <img src={{getImageSrc(booking)}} class="card-img-top"  style="height: 200px;">
+        <div class="card-body">
+          <h5 class="card-title">{{booking.game.title}}</h5>
+          <p class="card-text" >{{booking.date | date: 'dd/MM/yyyy' }}</p>
+          <button [disabled]="isToday(booking.date)" class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancelar reserva</button>
+          <p *ngIf="isToday(booking.date)" class="text-danger mt-2">No se pueden cancelar reservas el mismo día</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="role === 'ROLE_ADMIN' ">
+    <h1 class="text-white mb-3">ADMIN</h1>
+    <div class="m-2" *ngFor="let booking of bookings">
+      <div class="card bg-dark text-white" style="width: 22rem;">
+        <img src={{getImageSrc(booking)}} class="card-img-top"  style="height: 200px;">
+        <div class="card-body">
+          <h5 class="card-title">{{booking.game.title}}</h5>
+          <p class="card-text" >{{booking.date | date: 'dd/MM/yyyy' }} Usuario: {{booking.user.name}} {{booking.user.surname}}</p>
+          <button class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancelar reserva</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

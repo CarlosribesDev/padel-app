@@ -1,0 +1,13 @@
+.bg-the-den-image{
+  background-image: url('/assets/the-den.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+
+}
+
+.bg-hounted-house-image{
+  background-image: url('/assets/haunted-house.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+
+}

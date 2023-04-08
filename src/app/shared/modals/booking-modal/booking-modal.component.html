@@ -1,0 +1,19 @@
+<div class="modal-header bg-dark text-white">
+		<h4 class="modal-title">Realizar reserva</h4>
+	</div>
+	<div class="modal-body bg-secondary d-flex flex-column align-items-center">
+    <p><strong>{{booking.game.name}}</strong></p>
+    <p>Fecha: {{booking.date | date: 'dd/MM/yyyy' }} </p>
+    <p>Hora: {{booking.hour}}</p>
+    <p>Precio: {{booking.game.price}} €</p>
+
+	</div>
+	<div class="modal-footer bg-dark">
+		<button type="button" class="btn btn-primary" (click)="onSubmit()">Confirmar</button>
+    <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
+</div>
+
+
+
+
+

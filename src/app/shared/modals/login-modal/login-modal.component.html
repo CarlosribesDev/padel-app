@@ -1,0 +1,26 @@
+<div class="modal-header bg-dark text-white">
+		<h4 class="modal-title">Iniciar sesión</h4>
+	</div>
+	<div class="modal-body bg-secondary">
+		<form [formGroup]="loginForm">
+      <div class="form-group mt-3">
+        <label>Usuario</label>
+        <input class="form-control mt-1" placeholder="Usuario" formControlName="username">
+        <app-validator-errors [control] = "username" [submit]="submit" ></app-validator-errors>
+      </div>
+      <div class="form-group mt-3">
+        <label>Contraseña</label>
+        <input type="password" class="form-control mt-1" placeholder="Contraseña" formControlName="password">
+        <app-validator-errors [control] = "password" [submit]="submit" ></app-validator-errors>
+      </div>
+		</form>
+	</div>
+	<div class="modal-footer bg-dark">
+		<button type="button" class="btn btn-primary" (click)="onSubmit()">Iniciar</button>
+    <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
+</div>
+
+
+
+
+

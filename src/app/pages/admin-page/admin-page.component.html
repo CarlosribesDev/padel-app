@@ -1,0 +1,42 @@
+<div class="d-flex">
+    <div class="ms-5">
+        <button class="btn btn-lg btn-primary mb-2" (click)="openScheduleModal()">
+            Crear Horario
+        </button>
+        <div *ngIf="schedules.length > 0" class="container text-center">
+            <div *ngFor="let schedule of schedules">
+                <button (click)="selectSchedule(schedule)"  class="btn btn-dark mb-2">{{schedule.name}}</button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="selectedSchedule" class="ms-3" >
+        <button [disabled]="daysSelected.length === 0" class="btn btn-lg btn-primary mb-2" (click)="updateCalendar(selectedSchedule)">
+            Aplicar horario
+        </button>
+        <div  class="container text-center">
+            <h4>Sesiones</h4>
+            <div *ngFor="let hour of selectedSchedule.hours">
+                {{hour}}
+            </div>
+            <button class="btn btn-danger mt-2" (click)="deleteSchedule(selectedSchedule)">Eliminar</button>
+        </div>
+
+    </div>
+    <div class="ms-3">
+        <app-data-picker (selectedDaysEvent)="onUpdateDays($event)" (focusDayEvent)="setFocusDay($event)" [resetEvent]="resetEvent.asObservable()"></app-data-picker>
+    </div>
+    <div class="ms-3">
+        <div *ngIf="focusDay" class="container text-center" >
+            <h4>{{focusDay.date | date: 'dd/MM/yyyy'}} </h4>
+            <div *ngFor="let booking of focusDay.bookings">
+                {{booking.hour}}
+            </div>
+            <div *ngIf="focusDay.bookings?.length === 0" class="text-danger">
+                Sin horario
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

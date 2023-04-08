@@ -1,0 +1,7 @@
+<div class="card bg-dark text-white" style="width: 22rem;">
+  <img src={{imageSrc}} class="card-img-top" style="height: 200px;">
+  <div class="card-body">
+    <h5 class="card-title">{{game.title}}</h5>
+    <a [routerLink]="['/booking',game.id]" class="btn btn-primary">Reservar</a>
+  </div>
+</div>

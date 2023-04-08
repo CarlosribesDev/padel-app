@@ -1,0 +1,28 @@
+
+  .calendar {
+    background: grey;
+    width: 100%;
+    max-width: 350px;
+    border-radius: 20px;
+    padding: 20px 0;
+    border: solid 4px black;
+  }
+
+  .arrow{
+    width: 35%;
+    text-align: center;
+  }
+
+  .pointer:hover{
+    cursor: pointer;
+  }
+
+  .calendar_title{
+    width: 15%;
+    text-align: center;
+  }
+
+
+  .weekDay{
+    width: 14.2%;
+  }
