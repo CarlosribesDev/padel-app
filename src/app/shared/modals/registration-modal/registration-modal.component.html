@@ -36,7 +36,9 @@
       <div class="form-group col-md-6">
         <label>Repetir contraseña</label>
         <input type="password"   class="form-control mt-1" formControlName="passwordRepeated" placeholder="Repetir contraseña">
-        <app-validator-errors [control] = "passwordRepeated" [submit]="submit"></app-validator-errors>
+        <div *ngIf="userForm.errors?.['passwordConfirmed']">
+          Las contraseñas no coinciden.
+        </div>
       </div>
     </div>
 	</div>

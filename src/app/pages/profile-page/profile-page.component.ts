@@ -3,7 +3,7 @@ import { UserService } from './../../service/user.service';
 import { Booking } from './../../models/Booking';
 import { AuthService } from './../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/models/User';
+import { User } from 'app/models/User';
 
 @Component({
   selector: 'app-profile-page',

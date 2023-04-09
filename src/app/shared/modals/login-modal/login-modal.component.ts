@@ -6,8 +6,8 @@ import { AuthService } from './../../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from 'src/app/service/user.service';
-import { User } from 'src/app/models/User';
+import { UserService } from 'app/service/user.service';
+import { User } from 'app/models/User';
 import { ThisReceiver } from '@angular/compiler';
 import Swal from 'sweetalert2';
 

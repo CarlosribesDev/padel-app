@@ -4,9 +4,9 @@ import { AuthService } from '../../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Schedule } from 'src/app/models/Schedule';
+import { Schedule } from 'app/models/Schedule';
 import Swal from 'sweetalert2';
-import { ScheduleService } from 'src/app/service/schedule.service';
+import { ScheduleService } from 'app/service/schedule.service';
 
 @Component({
   selector: 'app-schedule-modal',

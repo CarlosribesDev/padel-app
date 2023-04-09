@@ -2,7 +2,7 @@ import { Observable, Subscription } from 'rxjs';
 import { WeekDay } from './../../../../models/WeekDay';
 import { Day } from './../../../../models/Day';
 import {  Component,  EventEmitter,  Input,  OnInit, Output } from '@angular/core';
-import { DayService } from 'src/app/service/day.service';
+import { DayService } from 'app/service/day.service';
 
 interface WeekDayy {
   text: string,

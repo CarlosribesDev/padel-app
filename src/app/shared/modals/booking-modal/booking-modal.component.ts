@@ -9,11 +9,11 @@ import { AuthService } from '../../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from 'src/app/service/user.service';
-import { User } from 'src/app/models/User';
+import { UserService } from 'app/service/user.service';
+import { User } from 'app/models/User';
 
 import Swal from 'sweetalert2';
-import { Game } from 'src/app/models/Game';
+import { Game } from 'app/models/Game';
 
 @Component({
   selector: 'app-booking-modal',

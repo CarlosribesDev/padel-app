@@ -5,9 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Day } from 'src/app/models/Day';
-import { Game } from 'src/app/models/Game';
-import { BookingModalComponent } from 'src/app/shared/modals/booking-modal/booking-modal.component';
+import { Day } from 'app/models/Day';
+import { Game } from 'app/models/Game';
+import { BookingModalComponent } from 'app/shared/modals/booking-modal/booking-modal.component';
 
 @Component({
   selector: 'app-booking-page',

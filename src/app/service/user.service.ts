@@ -1,10 +1,10 @@
-import { NewUserRequest } from 'src/app/models/request/NewUserRequest';
+import { NewUserRequest } from 'app/models/request/NewUserRequest';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { User} from 'src/app/models/User';
+import { environment } from 'environments/environment';
+import { User} from 'app/models/User';
 
 @Injectable({
   providedIn: 'root'
