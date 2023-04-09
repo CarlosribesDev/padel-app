@@ -1,5 +1,5 @@
 .bg-scape-image{
-    background-color: black;
+    background-image: url('/assets/padel.jpg');
     background-attachment: fixed;
     background-size: cover;
     height: 100vh;

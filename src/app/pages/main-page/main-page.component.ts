@@ -14,11 +14,11 @@ export class MainPageComponent implements OnInit {
   constructor(private gameService: GameService) { }
 
   ngOnInit(): void {
-    this.gameService.getAll().subscribe({
-      next:(games: Game[])=>{
-          this.games = games;
-      }
-    })
+    // this.gameService.getAll().subscribe({
+    //   next:(games: Game[])=>{
+    //       this.games = games;
+    //   }
+    // })
   }
 
 }

@@ -33,7 +33,6 @@ export class RegistrationModalComponent implements OnInit {
       username: [null, [Validators.required, Validators.minLength(3)], [FormValidators.usernameExist(userService)]],
       password: [null, [Validators.required, Validators.minLength(3)]],
       passwordRepeated: [null, [Validators.required]],
-      telephone: [null, [Validators.required, FormValidators.phoneNumberValidator()], [FormValidators.telephoneExist(userService)]],
       email: [null, [Validators.required, FormValidators.emailValidator()], [FormValidators.emailExist(userService)]],
     })
   }
