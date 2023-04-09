@@ -1,5 +1,4 @@
 import { UserService } from '../../service/user.service';
-import { Component, OnInit } from '@angular/core';
 import { ValidatorFn, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,7 +11,6 @@ export class FormValidators  {
 
   static phoneNumberValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-
       const value: string = control.value;
       const error: Object = { correctNumber: true }
 
@@ -24,7 +22,6 @@ export class FormValidators  {
 
   static passwordMatch(passwordFormControl: AbstractControl): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-
       const error: Object = { passwordConfirmed: true }
       const value: string = control.value;
 
@@ -48,7 +45,6 @@ export class FormValidators  {
 
   static emailExist(userService: UserService): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-
       const email: string = control.value;
 
       return userService.emailExist(email)
@@ -62,7 +58,6 @@ export class FormValidators  {
 
   static usernameExist(userService: UserService): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-
       const username: string = control.value;
 
       return userService.usernameExist(username)
@@ -73,21 +68,4 @@ export class FormValidators  {
       );
     }
   }
-
-  static telephoneExist(userService: UserService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-
-      const telephone: string = control.value;
-
-      return userService.telephoneExist(telephone)
-      .pipe(
-        map((exist: boolean) =>
-          exist ? { telephoneAlreadyExists: true } : null
-        )
-      );
-    }
-  }
-
-
-
 }

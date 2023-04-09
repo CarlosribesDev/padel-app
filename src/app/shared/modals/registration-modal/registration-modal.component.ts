@@ -1,12 +1,12 @@
 import { UserService } from '../../../service/user.service';
-import { NewUserRequest } from 'src/app/models/request/NewUserRequest';
-import { User } from 'src/app/models/User';
+import { NewUserRequest } from 'app/models/request/NewUserRequest';
+import { User } from 'app/models/User';
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {  NgbActiveModal  } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormValidators } from 'src/app/shared/utils/form-validators';
+import { FormValidators } from 'app/shared/utils/form-validators';
 
 import Swal from 'sweetalert2';
 
