@@ -5,11 +5,9 @@ import { LoginRequest } from '../../../models/request/LoginRequest';
 import { AuthService } from './../../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from 'app/service/user.service';
-import { User } from 'app/models/User';
-import { ThisReceiver } from '@angular/compiler';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login-modal',
@@ -44,7 +42,7 @@ export class LoginModalComponent implements OnInit {
     this.modalRef.close();
   }
 
-  onSubmit(): void {
+  async onSubmit() {
 
     this.submit = true;
 
@@ -56,47 +54,15 @@ export class LoginModalComponent implements OnInit {
     }
 
     this.authService.authUser(loginRequest).subscribe({
-      next: (tokenResp: TokenResponse) => {
-        this.authService.logIn(tokenResp.token);
-        this.authService.getCurrentUser().subscribe({
-          next:(user: User) => {
-              this.authService.setUser(user);
-              console.log("eee");
-
-              this.authService.getUserRole().subscribe({
-                next:(rolesponse )=>{
-                  const role = rolesponse.role;
-                  localStorage.setItem('role', role);
-
-                  if(role === "ROLE_ADMIN"){
-                    this.router.navigate(['/admin']);
-                    this.authService.loginStatus.next(true);
-                  }
-                  else if(role === "ROLE_USER"){
-                    this.router.navigate(['']);
-                    this.authService.loginStatus.next(true);
-                  }else{
-                    console.log("out");
-                    this.authService.logOut();
-                  }
-                  this.modalRef.close();
-                },
-                error:(ee)=>{
-                  console.log("error");
-                  console.log(ee);
-
-                  this.authService.logOut();
-                  this.modalRef.close();
-                }
-              })
+      next: async (tokenResp: TokenResponse) => {
+        this.authService.logIn(tokenResp);
 
 
-
-
-          }
-        })
-
-
+        const role = await firstValueFrom(this.authService.getRole());
+        if(role === 'ADMIN') {
+          this.router.navigate(['/admin']);
+        }
+        this.modalRef.close();
       },
       error: (errorResponse: HttpErrorResponse) => {
 

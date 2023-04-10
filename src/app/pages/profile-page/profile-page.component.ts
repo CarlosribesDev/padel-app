@@ -4,6 +4,7 @@ import { Booking } from './../../models/Booking';
 import { AuthService } from './../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'app/models/User';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile-page',
@@ -19,9 +20,9 @@ export class ProfilePageComponent implements OnInit {
               private userService: UserService,
               private bookignService: BookingService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
 
-    this.role = this.authService.getRole();
+    this.role = await firstValueFrom(this.authService.getRole());
 
     this.loadBookings();
 

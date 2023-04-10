@@ -14,7 +14,7 @@
 		</form>
 	</div>
 	<div class="modal-footer bg-dark">
-		<button type="button" class="btn btn-primary" (click)="onSubmit()">Iniciar</button>
+		<button [disabled]="this.loginForm.status !== 'VALID'" type="button" class="btn btn-primary" (click)="onSubmit()">Iniciar</button>
     <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
 </div>
 

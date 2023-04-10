@@ -7,7 +7,7 @@ import { RegistrationModalComponent } from "./registration-modal/registration-mo
 import { CommonModule } from '@angular/common';
 
 import { NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-import { InputComponent } from './registration-modal/input/input.component';
+
 
 
 @NgModule({
@@ -16,7 +16,6 @@ import { InputComponent } from './registration-modal/input/input.component';
     RegistrationModalComponent,
     ScheduleModalComponent,
     BookingModalComponent,
-    InputComponent
 
   ],
   imports: [
