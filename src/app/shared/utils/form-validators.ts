@@ -1,7 +1,8 @@
 import { UserService } from '../../service/user.service';
 import { ValidatorFn, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from 'app/models/User';
 
 export class FormValidators  {
 
@@ -9,16 +10,7 @@ export class FormValidators  {
 
   }
 
-  static phoneNumberValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value: string = control.value;
-      const error: Object = { correctNumber: true }
 
-      const numDigitPattern: RegExp = /^[0-9]{9}$/;
-
-      return numDigitPattern.test(value) ? null : error;
-    }
-  }
 
   static passwordMatch(passwordFormControl: AbstractControl): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -43,29 +35,14 @@ export class FormValidators  {
     }
   }
 
-  static emailExist(userService: UserService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const email: string = control.value;
-
-      return userService.emailExist(email)
-      .pipe(
-        map((exist: boolean) =>
-          exist ? { emailAlreadyExists: true } : null
-        )
-      );
-    }
-  }
 
   static usernameExist(userService: UserService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    return async (control: AbstractControl): Promise<ValidationErrors | null> => {
       const username: string = control.value;
 
-      return userService.usernameExist(username)
-      .pipe(
-        map((exist: boolean) =>
-          exist ? { usernameAlreadyExists: true } : null
-        )
-      );
+      const value = await firstValueFrom(userService.findAll({ username: username }));
+
+      return value.length ?  { usernameAlreadyExists: true } : null;
     }
   }
 }

@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { LoginRequest } from '../models/request/LoginRequest';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'environments/environment';
+import { NewUserRequest } from 'app/models/request/NewUserRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,11 @@ export class AuthService {
   loginStatus: Subject<boolean> = new Subject<boolean>();
 
   constructor(private http:HttpClient, private router: Router) { }
+
+
+  register(newUserRequest: NewUserRequest) {
+    return this.http.post<TokenResponse>(`${this.rootURL}/register`, newUserRequest)
+  }
 
   authUser(loginRequest: LoginRequest): Observable<TokenResponse>{
 

@@ -4,5 +4,4 @@ export  interface NewUserRequest {
   username: string;
   password: string;
   email: string;
-  telephone: string;
 }

@@ -30,7 +30,7 @@ export class ProfilePageComponent implements OnInit {
   loadBookings() {
     this.bookings = []
     if(this.role === 'ROLE_ADMIN'){
-      this.userService.getAllUser().subscribe({
+      this.userService.findAll().subscribe({
         next:(users: User[])=>{
           console.log(users);
 

@@ -4,11 +4,12 @@ import { User } from 'app/models/User';
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {  NgbActiveModal  } from '@ng-bootstrap/ng-bootstrap';
-import { take } from 'rxjs';
+import { first, firstValueFrom, take, map } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormValidators } from 'app/shared/utils/form-validators';
 
 import Swal from 'sweetalert2';
+import { AuthService } from 'app/service/auth.service';
 
 
 @Component({
@@ -17,54 +18,65 @@ import Swal from 'sweetalert2';
 })
 export class RegistrationModalComponent implements OnInit {
 
-  userForm!: FormGroup;
+  registrationForm!: FormGroup;
   errorMessage: string = '';
   submit: boolean = false;
+  formEmpty = true;
+  usernameExist = true;
 
   constructor(
     public modalRef: NgbActiveModal,
-    fb: FormBuilder,
+    private fb: FormBuilder,
     private userService: UserService,
+    private authService :AuthService
     ) {
 
-    this.userForm = fb.group({
-      name : [null, [Validators.required, Validators.minLength(3)]],
-      surname: [null, [Validators.required, Validators.minLength(3)]],
-      username: [null, [Validators.required, Validators.minLength(3)], [FormValidators.usernameExist(userService)]],
-      password: [null, [Validators.required, Validators.minLength(3)]],
-      passwordRepeated: [null, [Validators.required]],
-      email: [null, [Validators.required, FormValidators.emailValidator()], [FormValidators.emailExist(userService)]],
+    this.registrationForm = fb.group({
+      name : [''],
+      surname: [''],
+      username: [''],
+      password: [''],
+      passwordRepeated: [''],
+      email: ['', [FormValidators.emailValidator()]],
     })
   }
 
-  get name(): FormControl { return this.userForm.get('name') as FormControl }
-  get surname(): FormControl  { return this.userForm.get('surname') as FormControl }
-  get username(): FormControl  { return this.userForm.get('username') as FormControl }
-  get password(): FormControl  { return this.userForm.get('password') as FormControl }
-  get passwordRepeated(): FormControl { return this.userForm.get('passwordRepeated') as FormControl }
-  get telephone(): FormControl { return this.userForm.get('telephone') as FormControl }
-  get email(): FormControl  { return this.userForm.get('email') as FormControl }
+  get name(): FormControl { return this.registrationForm.get('name') as FormControl }
+  get surname(): FormControl  { return this.registrationForm.get('surname') as FormControl }
+  get username(): FormControl  { return this.registrationForm.get('username') as FormControl }
+  get password(): FormControl  { return this.registrationForm.get('password') as FormControl }
+  get passwordRepeated(): FormControl { return this.registrationForm.get('passwordRepeated') as FormControl }
+  get email(): FormControl  { return this.registrationForm.get('email') as FormControl }
 
   ngOnInit(): void {
     this.passwordRepeated.addValidators(FormValidators.passwordMatch(this.password));
+    this.registrationForm.valueChanges.subscribe(()=> {
+      this.formEmpty = Object.values(this.registrationForm.getRawValue()).some(value => value === '')
+    });
   }
 
-  onSubmit(): void {
+  checkUsernameExist(): Promise<boolean>{
+    return firstValueFrom(this.userService.findAll({ usernames: this.username.value })
+    .pipe(first(), map(users =>  users.length > 0)))
+
+  }
+
+  async onSubmit() {
     this.submit = true;
+    this.usernameExist = await this.checkUsernameExist();
 
-    if(this.userForm.status !== 'VALID') return;
-
+    if(this.registrationForm.status !== 'VALID' || this.usernameExist) return;
+    
     const user: NewUserRequest = {
       name: this.name.value,
       surname: this.surname.value,
       username: this.username.value,
       password: this.password.value,
-      telephone: this.telephone.value,
       email: this.email.value
     }
 
-    this.userService.saveUser(user).pipe(take(1)).subscribe({
-      next: (user: User) => {
+    this.authService.register(user).pipe(take(1)).subscribe({
+      next: () => {
         this.modalRef.close()
 
         Swal.fire({
@@ -72,17 +84,24 @@ export class RegistrationModalComponent implements OnInit {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         })
-
       },
-      error: (error) => {
-        this.modalRef.close()
-        Swal.fire({
-          text: 'Error al registrar usuario',
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        })
-      }
+      error: () => {
+          this.modalRef.close()
+          Swal.fire({
+            text: 'Error al registrar usuario',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          })
+        }
 
     })
   }
 }
+  // error: (error) => {
+      //   this.modalRef.close()
+      //   Swal.fire({
+      //     text: 'Error al registrar usuario',
+      //     icon: 'error',
+      //     confirmButtonText: 'Aceptar'
+      //   })
+      // }

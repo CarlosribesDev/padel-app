@@ -1,49 +1,51 @@
 <div class=" bg-dark text-white text-center p-2 ">
 		<h4 class="modal-title">Usuario nuevo</h4>
 </div>
-<form novalidate [formGroup]="userForm">
+<form novalidate [formGroup]="registrationForm">
 	<div class="modal-body bg-secondary">
     <div class="row">
       <div class="form-group col-md-6">
         <label>Nombre</label>
         <input type="text" class="form-control mt-1" formControlName="name" placeholder="Nombre">
-        <app-validator-errors [control] = "name" [submit]="submit"></app-validator-errors>
+        <ng-container *ngIf="submit && registrationForm.get('name')?.errors?.['required']">
+            <span class="text-danger">
+              *campo requerido
+            </span>
+        </ng-container>
       </div>
       <div class="form-group col-md-6">
         <label>Apellidos</label>
         <input type="text" class="form-control mt-1" formControlName="surname" placeholder="Apellidos">
-        <app-validator-errors [control] = "surname" [submit]="submit"></app-validator-errors>
       </div>
     </div>
     <div class="row mt-3">
       <div class="form-group col-md-6 ">
         <label>Nombre de usuario</label>
         <input type="text" class="form-control mt-1" formControlName="username" placeholder="Nombre de usuario">
-        <app-validator-errors [control] = "username" [submit]="submit"></app-validator-errors>
+        <ng-container *ngIf="submit && usernameExist">
+          <span class="text-danger">
+            *el nombre de usuario ya existe
+          </span>
+      </ng-container>
       </div>
       <div class="form-group col-md-6 ">
         <label>Correo electrónico</label>
         <input type="tel" class="form-control mt-1" formControlName="email" placeholder="Correo electronico">
-        <app-validator-errors [control] = "email" [submit]="submit"></app-validator-errors>
       </div>
     </div>
     <div class="row mt-3">
       <div class="form-group col-md-6">
         <label>Contraseña</label>
         <input type="password" class="form-control mt-1" formControlName="password" placeholder="Contraseña">
-        <app-validator-errors [control] = "password" [submit]="submit"></app-validator-errors>
       </div>
       <div class="form-group col-md-6">
         <label>Repetir contraseña</label>
         <input type="password"   class="form-control mt-1" formControlName="passwordRepeated" placeholder="Repetir contraseña">
-        <div *ngIf="userForm.errors?.['passwordConfirmed']">
-          Las contraseñas no coinciden.
-        </div>
       </div>
     </div>
 	</div>
   <div class="modal-footer bg-dark ">
-      <button type="submit" class="btn btn-primary" (click)="onSubmit()">Registrarse</button>
+      <button [disabled]="false" class="btn btn-primary" (click)="onSubmit()">Registrarse</button>
       <button type="button" class="btn btn-danger" (click)="modalRef.close()">Cancelar</button>
   </div>
 </form>

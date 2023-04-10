@@ -5,17 +5,18 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { LoginModalComponent } from "./login-modal/login-modal.component";
 import { RegistrationModalComponent } from "./registration-modal/registration-modal.component";
 import { CommonModule } from '@angular/common';
-import { ValidatorErrorsComponent } from './validator-erros/validator-errors.component';
+
 import { NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { InputComponent } from './registration-modal/input/input.component';
 
 
 @NgModule({
   declarations: [
     LoginModalComponent,
     RegistrationModalComponent,
-    ValidatorErrorsComponent,
     ScheduleModalComponent,
-    BookingModalComponent
+    BookingModalComponent,
+    InputComponent
 
   ],
   imports: [

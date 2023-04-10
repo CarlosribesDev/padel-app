@@ -1,6 +1,6 @@
 import { NewUserRequest } from 'app/models/request/NewUserRequest';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { environment } from 'environments/environment';
@@ -15,8 +15,20 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUser(): Observable<User[]>{
-    return this.http.get<User[]>(this.rootURL);
+  findAll(params?: any): Observable<User[]> {
+    let httpParams = new HttpParams();
+    if(params) {
+      Object.keys(params).forEach(key => {
+        httpParams = httpParams.append(key, params[key]);
+      });
+    }
+
+    const options = {
+      headers:  { 'Content-Type': 'application/json' },
+      params: httpParams
+    };
+
+    return this.http.get<User[]>(this.rootURL, options);
   }
 
   getUserById(id: number):Observable<User>{
@@ -25,17 +37,5 @@ export class UserService {
 
   saveUser(newUserRequest: NewUserRequest): Observable<User> {
     return this.http.post<User>(this.rootURL, newUserRequest);
-  }
-
-  emailExist(email: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.rootURL}/check/email/${email}`);
-  }
-
-  usernameExist(username: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.rootURL}/check/username/${username}`);
-  }
-
-  telephoneExist(telephone: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.rootURL}/check/telephone/${telephone}`);
   }
 }
