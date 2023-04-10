@@ -1,9 +1,9 @@
 .header {
   background-image: url('/assets/padel_logo.png'); /* Ruta de la imagen que deseas usar como fondo */
-  height: 200px;
+  height: 150px;
   width: 100%;
   background-repeat: no-repeat; /* Evita la repetición de la imagen de fondo */
-  background-size: 500px 200px;
+  background-size: 350px 150px;
   background-position: center center;
 }
 

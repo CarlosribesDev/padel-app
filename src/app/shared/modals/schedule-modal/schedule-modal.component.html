@@ -11,9 +11,9 @@
       <div class="form-group mt-3">
         <label>Nueva hora</label>
         <input type="time" class="form-control mt-1"  formControlName="hour">
-        <button type="button" class="btn btn-primary" (click)="AddHour()">Añadir hora</button>
+        <button type="button" class="btn btn-primary mt-2" (click)="AddHour()">Añadir hora</button>
       </div>
-      <div *ngFor="let hour of hours">
+      <div class="mt-2" *ngFor="let hour of hours">
           <strong>{{hour}}</strong>
       </div>
 		</form>

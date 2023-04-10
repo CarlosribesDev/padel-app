@@ -69,14 +69,14 @@ export class DataPickerComponent  implements OnInit{
   }
 
   ngOnInit(): void {
-    this.writeMonth();
-    this.resetEvent.subscribe({
-      next:()=>{
-        this.selectedDays = []
-        this.selectedDaysEvent.emit(this.selectedDays);
+    // this.writeMonth();
+    // this.resetEvent.subscribe({
+    //   next:()=>{
+    //     this.selectedDays = []
+    //     this.selectedDaysEvent.emit(this.selectedDays);
 
-      }
-    })
+    //   }
+    // })
   }
 
   lastMonth(): void {

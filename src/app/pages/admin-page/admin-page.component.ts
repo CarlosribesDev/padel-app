@@ -22,6 +22,7 @@ export class AdminPageComponent implements OnInit {
   weekDaysSelected: number[] = [];
   focusDay?: Day;
   daysSelected: Day[] = [];
+  sessionsSelected: Date [] = [];
 
   resetEvent: Subject<void> = new Subject<void>();
 
@@ -42,12 +43,17 @@ export class AdminPageComponent implements OnInit {
       next:(resp: Schedule[])=> {
         this.schedules = resp;
         this.cdr.detectChanges();
+        console.log(this.schedules);
+
       }
     })
   }
 
   selectSchedule(schedule: Schedule): void{
     this.selectedSchedule = schedule;
+    this.sessionsSelected = schedule.hours.map(hour => new Date(`1970-01-01T${hour}Z`));
+    console.log(this.sessionsSelected);
+
   }
 
   deleteSchedule(schedule: Schedule){
@@ -68,7 +74,7 @@ export class AdminPageComponent implements OnInit {
   }
 
   updateCalendar(schedule: Schedule){
-
+    return
     this.daysSelected.forEach(day => {
       const bookings: Booking[] = schedule.hours.map(hour => {
 
