@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { Subject, zip } from 'rxjs';
 import { CourtService } from 'app/service/court.service ';
 import { Court } from 'app/models/Court';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-page',
@@ -35,11 +36,22 @@ export class AdminPageComponent implements OnInit {
     private modalService: NgbModal,
     private scheduleService:ScheduleService,
     private courtService: CourtService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private router: Router) {
      }
 
   ngOnInit(): void {
     this.fecthData();
+    this.authService.getRole().subscribe({
+      next: (role)=>{
+        if(role !== 'ADMIN') {
+          this.router.navigate(['/']);
+        }
+      },
+      error: () => {
+        this.router.navigate(['/']);
+      }
+  })
   }
 
   fecthData(): void{

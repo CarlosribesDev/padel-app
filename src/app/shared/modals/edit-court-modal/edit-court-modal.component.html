@@ -1,24 +1,31 @@
 <div class="modal-header bg-dark text-white">
-		<h4 class="modal-title">Crear horario</h4>
+		<h4 class="modal-title">Editar</h4>
 	</div>
 	<div class="modal-body bg-secondary">
 		<form [formGroup]="courtForm">
       <div class="form-group mt-3">
         <label>Nombre</label>
         <input class="form-control mt-1" placeholder="nombre" formControlName="name">
-
       </div>
       <div class="form-group mt-3">
-        <label>Nueva hora</label>
-        <input type="time" class="form-control mt-1"  formControlName="type">
-        <button type="button" class="btn btn-primary mt-2" (click)="AddHour()">Añadir hora</button>
+        <label>Precio</label>
+        <input type="number" class="form-control mt-1" placeholder="precio" formControlName="price">
       </div>
-     
+      <div class="form-group mt-3">
+        <label>Horario</label>
+        <select class="form-control" formControlName="schedule" placeceholder="horario">
+          <option *ngFor="let schedule of schedules" [selected]="schedule.id === court.id" [ngValue]="schedule">{{ schedule.name | titlecase }}</option>
+        </select>
+      </div>
+
+
+
+
 		</form>
 	</div>
 
 	<div class="modal-footer bg-dark">
-		<button type="button" class="btn btn-primary" (click)="onSubmit()">Crear</button>
+		<button type="button" class="btn btn-primary" (click)="onSubmit()">Modificar</button>
     <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
 </div>
 

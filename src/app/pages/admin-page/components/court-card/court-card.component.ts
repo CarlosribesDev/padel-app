@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Court } from 'app/models/Court';
 import { EditCourtModalComponent } from 'app/shared/modals/edit-court-modal/edit-court-modal.component';
+import { CourtType } from 'app/models/CourtType';
 
 @Component({
   selector: 'app-court-card',
@@ -16,7 +17,6 @@ export class CourtCardComponent implements OnInit {
   @Input()court: Court = new Court();
   @Output()fecthDataEvent: EventEmitter<void> = new EventEmitter();
 
-
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder
@@ -24,8 +24,8 @@ export class CourtCardComponent implements OnInit {
 
   ngOnInit(): void {
     switch(this.court.type){
-      case "OPEN": this.imageSrc = '../../../../assets/court-open.jpg'; break;
-      case "INDOOR" : this.imageSrc = '../../../../assets/court-indoor.jpg'; break;
+      case CourtType.OPEN: this.imageSrc = '../../../../assets/court-open.jpg'; break;
+      case CourtType.INDOOR: this.imageSrc = '../../../../assets/court-indoor.jpg'; break;
       default : this.imageSrc = '../../../../assets/image.jpg'
     }
   }
