@@ -9,7 +9,9 @@ import { ScheduleModalComponent } from 'app/shared/modals/schedule-modal/schedul
 import { ChangeDetectorRef } from '@angular/core';
 import { Day } from 'app/models/Day';
 import Swal from 'sweetalert2';
-import { Subject } from 'rxjs';
+import { Subject, zip } from 'rxjs';
+import { CourtService } from 'app/service/court.service ';
+import { Court } from 'app/models/Court';
 
 @Component({
   selector: 'app-admin-page',
@@ -18,11 +20,13 @@ import { Subject } from 'rxjs';
 export class AdminPageComponent implements OnInit {
 
   schedules : Schedule[] = [];
-  selectedSchedule?: Schedule;
+  selectedSchedule: Schedule | null =  null;
   weekDaysSelected: number[] = [];
-  focusDay?: Day;
-  daysSelected: Day[] = [];
+
   sessionsSelected: Date [] = [];
+  courts: Court[] = [];
+
+
 
   resetEvent: Subject<void> = new Subject<void>();
 
@@ -30,37 +34,38 @@ export class AdminPageComponent implements OnInit {
     private authService:AuthService,
     private modalService: NgbModal,
     private scheduleService:ScheduleService,
-    private dayService: DayService,
+    private courtService: CourtService,
     private cdr: ChangeDetectorRef) {
      }
 
   ngOnInit(): void {
-    this.getSchedules();
+    this.fecthData();
   }
 
-  getSchedules(): void{
-    this.scheduleService.findAll().subscribe({
-      next:(resp: Schedule[])=> {
-        this.schedules = resp;
-        this.cdr.detectChanges();
-        console.log(this.schedules);
-
-      }
+  fecthData(): void{
+    zip(
+      this.scheduleService.findAll(),
+      this.courtService.findAll()
+    ).subscribe(([schedules, courts])=> {
+      this.schedules = schedules;
+      this.courts = courts;
+      this.cdr.detectChanges();
     })
   }
 
   selectSchedule(schedule: Schedule): void{
     this.selectedSchedule = schedule;
     this.sessionsSelected = schedule.hours.map(hour => new Date(`1970-01-01T${hour}Z`));
-    console.log(this.sessionsSelected);
-
   }
 
-  deleteSchedule(schedule: Schedule){
-      this.scheduleService.delete(schedule.id).subscribe({
+  deleteSchedule() {
+
+      if(this.selectedSchedule === null) return
+
+      this.scheduleService.delete(this.selectedSchedule.id).subscribe({
         next:()=>{
-          this.getSchedules();
-          this.selectedSchedule = undefined;
+          this.fecthData();
+          this.selectedSchedule = null;
         }
       })
   }
@@ -69,55 +74,10 @@ export class AdminPageComponent implements OnInit {
     this.weekDaysSelected = daysList;
   }
 
-  setFocusDay(day: Day){
-    this.focusDay = day;
-  }
-
-  updateCalendar(schedule: Schedule){
-    return
-    this.daysSelected.forEach(day => {
-      const bookings: Booking[] = schedule.hours.map(hour => {
-
-        return new Booking({
-          hour:hour,
-          date:day.date,
-          dayId:day.id,
-          isBusy:false,
-        })
-
-      })
-
-      day.bookings = bookings;
-    })
-
-    this.dayService.updateAll(this.daysSelected).subscribe({
-      next:(days: Day[])=> {
-        this.resetEvent.next();
-        Swal.fire({
-          text: 'Calendario Actualizado',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        })
-      },
-      error:(e)=>{
-        console.log(e);
-
-        Swal.fire({
-          text: 'Error al actualizar horario',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        })
-
-      }
-    })
-  }
-  onUpdateDays(days: Day[]){
-    this.daysSelected = days;
-  }
   openScheduleModal(){
     this.modalService.open(ScheduleModalComponent ,{size: 'sm'}).hidden.subscribe({
-      next:()=>{
-        this.getSchedules();
+      next:() => {
+        this.fecthData();
       }
     })
   }

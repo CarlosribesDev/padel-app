@@ -10,13 +10,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AppRotingModule } from './app-roting.module';
-import { WeekDaysBarComponent } from './pages/admin-page/components/week-days-bar/week-days-bar.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
-import { DataPickerComponent } from './pages/admin-page/components/data-picker/data-picker.component';
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
+import { CourtCardComponent } from './pages/admin-page/components/court-card/court-card.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +24,11 @@ import { BookingPageComponent } from './pages/booking-page/booking-page.componen
     MainPageComponent,
     AdminPageComponent,
     BookingPageComponent,
-    WeekDaysBarComponent,
-    DataPickerComponent,
     BookingPickerComponent,
     BookingPickerComponent,
     GameCardComponent,
-    ProfilePageComponent
-
+    ProfilePageComponent,
+    CourtCardComponent
 
   ],
   imports: [

@@ -9,33 +9,24 @@
             </div>
         </div>
     </div>
-    <div *ngIf="selectedSchedule" class="ms-3" >
-        <button [disabled]="daysSelected.length === 0" class="my-btn my-btn-lg color-primary mt-4" (click)="updateCalendar(selectedSchedule)">
-            Aplicar horario
-        </button>
-        <div class="container text-center mt-2">
+    <div class="ms-3" >
+
+        <div class="container text-center mt-5">
             <h4>Sesiones</h4>
             <div *ngFor="let session of sessionsSelected">
                 {{ session | date:'HH:mm' }}
             </div>
-            <button class="btn btn-danger mt-2" (click)="deleteSchedule(selectedSchedule)">Eliminar</button>
+            <button [disabled]="!this.selectedSchedule" class="btn btn-danger mt-2" (click)="deleteSchedule()">Eliminar</button>
         </div>
 
     </div>
-    <!-- <div class="ms-3">
-        <app-data-picker (selectedDaysEvent)="onUpdateDays($event)" (focusDayEvent)="setFocusDay($event)" [resetEvent]="resetEvent.asObservable()"></app-data-picker>
-    </div> -->
-    <div class="ms-3">
-        <div *ngIf="focusDay" class="container text-center" >
-            <h4>{{focusDay.date | date: 'dd/MM/yyyy'}} </h4>
-            <div *ngFor="let booking of focusDay.bookings">
-                {{booking.hour}}
-            </div>
-            <div *ngIf="focusDay.bookings?.length === 0" class="text-danger">
-                Sin horario
-            </div>
-        </div>
+    <div class="d-flex mt-3 ms-5 justify-content-evenly">
+      <ng-container *ngFor="let court of courts">
+        <app-court-card [court]="court"></app-court-card>
+      </ng-container>
     </div>
+
+
 
 
 

@@ -1,0 +1,30 @@
+<div class="modal-header bg-dark text-white">
+		<h4 class="modal-title">Crear horario</h4>
+	</div>
+	<div class="modal-body bg-secondary">
+		<form [formGroup]="scheduleForm">
+      <div class="form-group mt-3">
+        <label>Nombre</label>
+        <input class="form-control mt-1" placeholder="nombre" formControlName="name">
+
+      </div>
+      <div class="form-group mt-3">
+        <label>Nueva hora</label>
+        <input type="time" class="form-control mt-1"  formControlName="hour">
+        <button type="button" class="btn btn-primary mt-2" (click)="AddHour()">Añadir hora</button>
+      </div>
+      <div class="mt-2" *ngFor="let hour of hours">
+          <strong>{{hour}}</strong>
+      </div>
+		</form>
+	</div>
+
+	<div class="modal-footer bg-dark">
+		<button type="button" class="btn btn-primary" (click)="onSubmit()">Crear</button>
+    <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
+</div>
+
+
+
+
+

@@ -4,11 +4,8 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { LoginModalComponent } from "./login-modal/login-modal.component";
 import { RegistrationModalComponent } from "./registration-modal/registration-modal.component";
+import { EditCourtModalComponent } from './edit-court-modal/edit-court-modal.component';
 import { CommonModule } from '@angular/common';
-
-// import { NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-
-
 
 @NgModule({
   declarations: [
@@ -16,12 +13,11 @@ import { CommonModule } from '@angular/common';
     RegistrationModalComponent,
     ScheduleModalComponent,
     BookingModalComponent,
-
+    EditCourtModalComponent
   ],
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    // NgxMaterialTimepickerModule
   ],
   exports:[
   ]

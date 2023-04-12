@@ -1,18 +1,15 @@
 .header {
   background-image: url('/assets/padel_logo.png'); /* Ruta de la imagen que deseas usar como fondo */
-  height: 150px;
+  height: 100px;
   width: 100%;
   background-repeat: no-repeat; /* Evita la repetición de la imagen de fondo */
-  background-size: 350px 150px;
-  background-position: center center;
+  background-size: 200px 100px;
+  background-position: center left;
 }
 
 .session-btn {
-
-    position: absolute; /* Establece la posición absoluta para el elemento */
-    right: 0; /* Pega el elemento a la derecha */
-    top: 0; /* Opcional: Pega el elemento en la parte superior del contenedor */
-    /* ...Otros estilos para el elemento... */
-
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
