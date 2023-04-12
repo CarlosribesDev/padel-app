@@ -6,7 +6,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Schedule } from 'app/models/Schedule';
 import Swal from 'sweetalert2';
-import { ScheduleService } from 'app/service/schedule.service';
+import { CourtService } from 'app/service/court.service ';
+import { Court } from 'app/models/Court';
 
 @Component({
   selector: 'app-edit-court-modal',
@@ -14,30 +15,32 @@ import { ScheduleService } from 'app/service/schedule.service';
 })
 export class EditCourtModalComponent implements OnInit {
 
-  scheduleForm!: FormGroup;
+  courtForm!: FormGroup;
+  court!: Court;
+
   submit: boolean = false;
-  hours: string[] = [];
-  hourPicker: string = '';
 
   constructor(
     public modalRef: NgbActiveModal,
     private fb: FormBuilder,
     private authService: AuthService,
-    private scheduleService: ScheduleService,
+    private courtService: CourtService,
     private userService: UserService
     ) {
 
-      this.scheduleForm = fb.group({
-        name: [null, [Validators.required]],
-        hour: [null, [Validators.required]],
-      })
+
     }
 
-  get name(): FormControl  { return this.scheduleForm.get('name') as FormControl }
-  get hour(): FormControl  { return this.scheduleForm.get('hour') as FormControl }
+  get name(): FormControl  { return this.courtForm.get('name') as FormControl }
+  get type(): FormControl  { return this.courtForm.get('type') as FormControl }
+  get schedule(): FormControl  { return this.courtForm.get('schedule') as FormControl }
 
   ngOnInit(): void {
-
+    this.courtForm = this.fb.group({
+      name: [this.court.name, [Validators.required]],
+      type: [this.court.type, [Validators.required]],
+      schedule: [this.court.schedule, [Validators.required]]
+    })
   }
 
   close(){
@@ -46,15 +49,16 @@ export class EditCourtModalComponent implements OnInit {
 
   onSubmit(): void {
 
-    const schedule =  new Schedule({
+    const court =  new Court({
       name: this.name.value,
-      hours: this.hours
+      type: this.type,
+      schedule: this.schedule.value as Schedule
     })
 
-    this.scheduleService.save(schedule).subscribe({
-      next:(schedule: Schedule)=>{
+    this.courtService.update(court.id ,court).subscribe({
+      next:(court: Court)=>{
         Swal.fire({
-          text: 'Horario creado',
+          text: 'Pista actualizada',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         })
@@ -63,14 +67,14 @@ export class EditCourtModalComponent implements OnInit {
       }
     })
 
-    this.hours = []
-    this.scheduleForm.reset();
+   
+    this.courtForm.reset();
   }
 
   AddHour(): void {
-    const newHour = this.hour.value;
+    const newHour = this.type.value;
 
-    this.hours.push(newHour);
+
 
   }
 }

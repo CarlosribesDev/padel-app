@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Court } from 'app/models/Court';
 import { EditCourtModalComponent } from 'app/shared/modals/edit-court-modal/edit-court-modal.component';
@@ -17,7 +18,8 @@ export class CourtCardComponent implements OnInit {
 
 
   constructor(
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -28,8 +30,16 @@ export class CourtCardComponent implements OnInit {
     }
   }
 
-  openEditCourtModal(){
-    this.modalService.open(EditCourtModalComponent, {size: 'sm'}).hidden.subscribe({
+  openEditCourtModal() {
+
+    const options = {
+      size: 'sm',
+    };
+
+    const modal = this.modalService.open(EditCourtModalComponent, options);
+
+    modal.componentInstance.court = this.court;
+    modal.hidden.subscribe({
       next:() => {
         this.fecthDataEvent.emit();
       }

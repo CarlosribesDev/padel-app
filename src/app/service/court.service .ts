@@ -17,6 +17,10 @@ export class CourtService {
       return this.http.get<Court>(`${this.rootURL}/${id}`);
     }
 
+    update(id:number, court: Court): Observable<Court> {
+      return this.http.put<Court>(`${this.rootURL}/${id}`, court)
+    }
+
     findAll(): Observable<Court[]>{
       return this.http.get<Court[]>(`${this.rootURL}`);
     }
