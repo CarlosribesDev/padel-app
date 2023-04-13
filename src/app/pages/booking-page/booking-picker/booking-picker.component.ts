@@ -3,7 +3,6 @@ import { Booking } from './../../../models/Booking';
 import { Day } from 'app/models/Day';
 
 import {  Component,  EventEmitter,  Input,  OnInit, Output } from '@angular/core';
-import { DayService } from 'app/service/day.service';
 
 interface WeekDayy {
   text: string,
@@ -54,21 +53,25 @@ export class BookingPickerComponent  implements OnInit{
   ]
   private currentDate = new Date();
 
-  private monthNumber: number = this.currentDate.getMonth();
+  private currentMonth: number = this.currentDate.getMonth();
   private currentYear: number = this.currentDate.getFullYear();
   private currentDay: number = this.currentDate.getDate();
-  selectedDay: Day | undefined;
+  today: Date = new Date();
+  selectedDay: Date = new Date();
 
-  month: string = this.monthNames[this.monthNumber];
+  month: string = this.monthNames[this.currentMonth];
   year :string = this.currentYear.toString()
-  days: Day[]= []
+  days: Date[] = []
+  validDays: Date[] = [];
   prevDays: null[] = []
 
-  constructor(private dayService: DayService) {
+
+  constructor() {
 
   }
 
   ngOnInit(): void {
+    this.today.setHours(0,0,0,0);
     this.writeMonth();
     this.update.subscribe({
       next:()=>{
@@ -77,22 +80,21 @@ export class BookingPickerComponent  implements OnInit{
     })
   }
 
-
   lastMonth(): void {
-    if(this.monthNumber !== 0){
-      this.monthNumber--;
+    if(this.currentMonth !== 0){
+      this.currentMonth--;
     }else{
-      this.monthNumber = 11;
+      this.currentMonth = 11;
       this.currentYear--;
     }
     this.setNewDate();
   }
 
   nextMonth(): void {
-    if(this.monthNumber !== 11){
-        this.monthNumber++;
+    if(this.currentMonth !== 11){
+        this.currentMonth++;
     }else{
-      this.monthNumber = 0;
+      this.currentMonth = 0;
       this.currentYear++;
     }
     this.setNewDate();
@@ -101,62 +103,82 @@ export class BookingPickerComponent  implements OnInit{
   setNewDate(): void {
     this.days = []
     this.prevDays = []
-    this.currentDate.setFullYear(this.currentYear,this.monthNumber,this.currentDay);
-    this.month = this.monthNames[this.monthNumber];
+    this.currentDate.setFullYear(this.currentYear,this.currentMonth,this.currentDay);
+    this.month = this.monthNames[this.currentMonth];
     this.year = this.currentYear.toString();
 
     this.writeMonth();
   }
 
-  selectDay(day: Day){
+  selectDay(day: Date){
     this.selectedDay = day
 
-    this.selectedDayEvent.emit(day);
+   // this.selectedDayEvent.emit(day);
   }
 
-  getButtonClass(day : Day): string{
-    if(!day.bookings){
-      return "btn-danger";
-    }
+  getButtonClass(day : Date): string {
+    // if(!day.bookings){
+    //   return "btn-danger";
+    // }
 
-    const busyBookings = day.bookings.filter(booking => booking.user);
+    // const busyBookings = day.bookings.filter(booking => booking.user);
 
-    if(day.busy){
-      return "btn-danger";
-    }
-    else if(busyBookings.length === day.bookings.length){
-      return "btn-danger";
+    // if(day.busy){
+    //   return "btn-danger";
+    // }
+    // else if(busyBookings.length === day.bookings.length){
+    //   return "btn-danger";
 
-    }
-    else if(busyBookings.length > 0){
-      return "btn-warning";
-    }
+    // }
+    // else if(busyBookings.length > 0){
+    //   return "btn-warning";
+    // }
 
     return "btn-success";
 
   }
 
+  getDaysFromMonth(): Date[]{
+    const days: Date[] = [];
+      const date = new Date(this.currentYear, this.currentMonth, 1);
+
+      while (date.getMonth() === this.currentMonth) {
+        // Agregar el objeto Date del día actual al array
+        days.push(new Date(date));
+
+        // Avanzar al siguiente día
+        date.setDate(date.getDate() + 1);
+      }
+
+      return days;
+  }
+
   writeMonth() {
     this.prevDays = []
     this.days = []
-    for(let i = this.startDay(); i > 0 ; i--){
+
+    for(let i = this.startDay(); i > 0 ; i--) {
       this.prevDays.push(null);
     }
 
-    this.dayService.findByDate(this.currentYear, this.monthNumber + 1).subscribe({
-      next:(daysInMonth: Day[]) => {
-        this.days.push(...daysInMonth);
-      }
-    })
+    this.days.push(...this.getDaysFromMonth());
+    this.validDays = this.days.filter(day => day >= this.today && day < this.getNextWeekDate(this.today))
+    this.selectedDay = this.validDays[0];
+  }
+
+  getNextWeekDate(date: Date): Date {
+    const nextWeek = new Date(date);
+    nextWeek.setDate(date.getDate() + 7);
+    return nextWeek;
   }
 
   startDay(): number{
-      const start = new Date(this.currentYear, this.monthNumber, 1);
+      const start = new Date(this.currentYear, this.currentMonth, 1);
       return ((start.getDay() - 1) === -1) ? 6 : start.getDay() - 1;
   }
 
   onCurrentMonth(): boolean{
-      return new Date().getMonth() === this.monthNumber;
+      return new Date().getMonth() === this.currentMonth;
   }
 
   onOneMonthAftherCurrent(): boolean {
@@ -164,6 +186,6 @@ export class BookingPickerComponent  implements OnInit{
 
     value !== 11 ? value ++ : value = 0;
 
-    return (this.monthNumber) === value;
+    return (this.currentMonth) === value;
   }
 }

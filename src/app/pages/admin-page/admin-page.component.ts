@@ -1,5 +1,3 @@
-import { Booking } from './../../models/Booking';
-import { DayService } from './../../service/day.service';
 import { ScheduleService } from 'app/service/schedule.service';
 import { Schedule } from 'app/models/Schedule';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,8 +5,6 @@ import { AuthService } from './../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ScheduleModalComponent } from 'app/shared/modals/schedule-modal/schedule-modal.component';
 import { ChangeDetectorRef } from '@angular/core';
-import { Day } from 'app/models/Day';
-import Swal from 'sweetalert2';
 import { Subject, zip } from 'rxjs';
 import { CourtService } from 'app/service/court.service ';
 import { Court } from 'app/models/Court';

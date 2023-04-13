@@ -39,26 +39,6 @@ export class BookingPageComponent implements OnInit,OnDestroy {
 
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe(params => {
-      let id: number = params['id'];
-
-
-      this.gameService.getById(id).subscribe({
-        next:(game: Game)=>{
-          this.game = game;
-          switch(this.game.name){
-            case "THE_DEN": this.bgClass = 'bg-the-den-image'; break;
-            case "HAUNTED_HOUSE" : this.bgClass = 'bg-hounted-house-image'; break;
-            default : this.bgClass = ''
-          }
-
-        },
-        error:()=>{
-          this.router.navigate(['']);
-        }
-      })
-
-    });
 
   }
 

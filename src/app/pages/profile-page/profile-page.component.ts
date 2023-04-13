@@ -22,9 +22,9 @@ export class ProfilePageComponent implements OnInit {
 
   async ngOnInit() {
 
-    this.role = await firstValueFrom(this.authService.getRole());
+    // this.role = await firstValueFrom(this.authService.getRole());
 
-    this.loadBookings();
+    // this.loadBookings();
 
   }
 
