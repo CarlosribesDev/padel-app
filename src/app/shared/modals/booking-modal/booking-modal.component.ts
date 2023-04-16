@@ -13,7 +13,7 @@ import { UserService } from 'app/service/user.service';
 import { User } from 'app/models/User';
 
 import Swal from 'sweetalert2';
-import { Game } from 'app/models/Game';
+
 
 @Component({
   selector: 'app-booking-modal',
@@ -56,7 +56,7 @@ export class BookingModalComponent implements OnInit {
   onSubmit(): void {
 
     const user: User | null = this.authService.getUser();
-    const game: Game | undefined = this.booking.game;
+    const game: any | undefined = this.booking;
 
     if(user === null || game === undefined || this.booking.id === undefined){
       return;

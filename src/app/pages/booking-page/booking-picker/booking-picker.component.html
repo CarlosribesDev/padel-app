@@ -21,7 +21,8 @@
 
         </div>
         <div *ngFor="let day of days" class="weekDay text-center">
-            <button [disabled]="!validDays.includes(day)" [ngClass]="this.selectedDay === day ? 'btn-success': 'btn-primary' " class="btn btn-sm mb-1 w-75" *ngIf="day" (click)="selectDay(day)">
+            <button [disabled]="!validDays.includes(day)" [ngClass]="!validDays.includes(day) ? 'btn-secondary' : this.selectedDay === day ? 'btn-success': 'btn-primary' "
+            class="btn btn-sm mb-1 w-75" *ngIf="day" (click)="selectDay(day)">
                {{ day| date: "d" }}
 
             </button>

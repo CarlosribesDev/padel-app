@@ -2,10 +2,10 @@
 		<h4 class="modal-title">Realizar reserva</h4>
 	</div>
 	<div class="modal-body bg-secondary d-flex flex-column align-items-center">
-    <p><strong>{{booking.game.name}}</strong></p>
+    <p><strong>{{booking.court.name}}</strong></p>
     <p>Fecha: {{booking.date | date: 'dd/MM/yyyy' }} </p>
-    <p>Hora: {{booking.hour}}</p>
-    <p>Precio: {{booking.game.price}} €</p>
+    <p>Hora: {{booking.date }}</p>
+    <p>Precio: {{booking.court.price}} €</p>
 
 	</div>
 	<div class="modal-footer bg-dark">

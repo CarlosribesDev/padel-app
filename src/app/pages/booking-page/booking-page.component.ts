@@ -1,12 +1,10 @@
 import { Booking } from './../../models/Booking';
 import { AuthService } from './../../service/auth.service';
-import { GameService } from './../../service/game.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Day } from 'app/models/Day';
-import { Game } from 'app/models/Game';
+
 import { BookingModalComponent } from 'app/shared/modals/booking-modal/booking-modal.component';
 
 @Component({
@@ -18,8 +16,8 @@ export class BookingPageComponent implements OnInit,OnDestroy {
 
 
   private sub: any;
-  selectedDay?: Day;
-  game: Game = new Game;
+  selectedDay?: Date;
+
   bgClass: String = '';
   isLooged: boolean = false;
   updateCalendar: Subject<void> = new Subject<void>();
@@ -27,7 +25,6 @@ export class BookingPageComponent implements OnInit,OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private gameService:GameService,
     public authService: AuthService,
     private modalService: NgbModal,
     private router: Router) {
@@ -42,13 +39,13 @@ export class BookingPageComponent implements OnInit,OnDestroy {
 
   }
 
-  selectDay(day: Day){
+  selectDay(day: Date){
     this.selectedDay = day;
   }
 
   openConfirmModal(booking: Booking){
 
-    booking.game = this.game;
+   
 
     const modalRef = this.modalService.open(BookingModalComponent,{size: 'sm'});
 

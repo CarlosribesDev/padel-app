@@ -70,11 +70,11 @@ export class ProfilePageComponent implements OnInit {
 
   getImageSrc(booking: Booking): string{
 
-    if(!booking.game){
+    if(!booking.court){
       return '../../../../assets/image.jpg';
     }
 
-    switch(booking.game.name){
+    switch(booking.court.name){
       case  "THE_DEN": return'../../../../assets/the-den.jpg';
       case "HAUNTED_HOUSE" : return '../../../../assets/haunted-house.jpg'; break;
       default : return '../../../../assets/image.jpg'

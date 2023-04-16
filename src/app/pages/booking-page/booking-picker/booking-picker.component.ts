@@ -1,6 +1,6 @@
 import { Subscription, Observable } from 'rxjs';
 import { Booking } from './../../../models/Booking';
-import { Day } from 'app/models/Day';
+
 
 import {  Component,  EventEmitter,  Input,  OnInit, Output } from '@angular/core';
 
@@ -16,7 +16,7 @@ interface WeekDayy {
 })
 export class BookingPickerComponent  implements OnInit{
 
-  @Output() selectedDayEvent: EventEmitter<Day> = new EventEmitter();
+  @Output() selectedDayEvent: EventEmitter<Date> = new EventEmitter();
   @Input() update: Observable<void> = new Observable<void>;
 
 

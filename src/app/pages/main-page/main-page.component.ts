@@ -1,6 +1,6 @@
-import { GameService } from './../../service/game.service';
+
 import { Component, OnInit } from '@angular/core';
-import { Game } from 'app/models/Game';
+
 
 @Component({
   selector: 'app-main-page',
@@ -9,16 +9,11 @@ import { Game } from 'app/models/Game';
 })
 export class MainPageComponent implements OnInit {
 
-  games!: Game[];
 
-  constructor(private gameService: GameService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    // this.gameService.getAll().subscribe({
-    //   next:(games: Game[])=>{
-    //       this.games = games;
-    //   }
-    // })
+   
   }
 
 }

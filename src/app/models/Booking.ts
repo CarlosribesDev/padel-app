@@ -1,20 +1,16 @@
-import { Game } from "./Game";
-import { UserWithoutBookings } from "./UserWithoutBookings";
+import { User } from "./User";
+import { Court } from "./Court";
 
 export class Booking {
-  id:number ;
-  hour: string;
+  id: number ;
+  court: Court;
   date: Date;
-  game: Game;
-  dayId: number;
-  user: UserWithoutBookings;
+  user: User;
 
   constructor(json: any = {}){
     this.id = json.id;
-    this.hour = json.hour;
+    this.court = json.court;
     this.date = json.date;
-    this.game = json.game;
-    this.dayId = json.dayId;
     this.user = json.user;
   }
 }
