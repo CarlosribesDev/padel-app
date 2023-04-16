@@ -1,8 +1,4 @@
-import { Subscription, Observable } from 'rxjs';
-import { Booking } from './../../../models/Booking';
-
-
-import {  Component,  EventEmitter,  Input,  OnInit, Output } from '@angular/core';
+import {  Component,  EventEmitter, OnInit, Output } from '@angular/core';
 
 interface WeekDayy {
   text: string,
@@ -11,14 +7,12 @@ interface WeekDayy {
 
 @Component({
   selector: 'app-booking-picker',
-  templateUrl: './booking-picker.component.html',
-  styleUrls: ['./booking-picker.component.css']
+  templateUrl: './date-picker.component.html',
+  styleUrls: ['./date-picker.component.css']
 })
 export class BookingPickerComponent  implements OnInit{
 
   @Output() selectedDayEvent: EventEmitter<Date> = new EventEmitter();
-  @Input() update: Observable<void> = new Observable<void>;
-
 
   readonly monthNames: string [] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre','Octubre', 'Noviembre', 'Diciembre'];
   readonly weekDays: WeekDayy[] = [
@@ -65,7 +59,6 @@ export class BookingPickerComponent  implements OnInit{
   validDays: Date[] = [];
   prevDays: null[] = []
 
-
   constructor() {
 
   }
@@ -73,11 +66,6 @@ export class BookingPickerComponent  implements OnInit{
   ngOnInit(): void {
     this.today.setHours(0,0,0,0);
     this.writeMonth();
-    this.update.subscribe({
-      next:()=>{
-        setTimeout(()=> this.writeMonth(), 200);
-      }
-    })
   }
 
   lastMonth(): void {
@@ -112,41 +100,17 @@ export class BookingPickerComponent  implements OnInit{
 
   selectDay(day: Date){
     this.selectedDay = day
-
-   // this.selectedDayEvent.emit(day);
+    this.selectedDayEvent.emit(day);
   }
 
-  getButtonClass(day : Date): string {
-    // if(!day.bookings){
-    //   return "btn-danger";
-    // }
 
-    // const busyBookings = day.bookings.filter(booking => booking.user);
-
-    // if(day.busy){
-    //   return "btn-danger";
-    // }
-    // else if(busyBookings.length === day.bookings.length){
-    //   return "btn-danger";
-
-    // }
-    // else if(busyBookings.length > 0){
-    //   return "btn-warning";
-    // }
-
-    return "btn-success";
-
-  }
 
   getDaysFromMonth(): Date[]{
     const days: Date[] = [];
       const date = new Date(this.currentYear, this.currentMonth, 1);
 
       while (date.getMonth() === this.currentMonth) {
-        // Agregar el objeto Date del día actual al array
         days.push(new Date(date));
-
-        // Avanzar al siguiente día
         date.setDate(date.getDate() + 1);
       }
 

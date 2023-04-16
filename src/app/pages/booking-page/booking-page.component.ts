@@ -6,6 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BookingModalComponent } from 'app/shared/modals/booking-modal/booking-modal.component';
+import { BookingService } from 'app/service/booking.service';
 
 @Component({
   selector: 'app-booking-page',
@@ -20,13 +21,13 @@ export class BookingPageComponent implements OnInit,OnDestroy {
 
   bgClass: String = '';
   isLooged: boolean = false;
-  updateCalendar: Subject<void> = new Subject<void>();
-
 
   constructor(
     private route: ActivatedRoute,
     public authService: AuthService,
     private modalService: NgbModal,
+    private bookingSerive: BookingService,
+    private courtService: BookingService,
     private router: Router) {
 
    }
@@ -44,17 +45,7 @@ export class BookingPageComponent implements OnInit,OnDestroy {
   }
 
   openConfirmModal(booking: Booking){
-
-   
-
     const modalRef = this.modalService.open(BookingModalComponent,{size: 'sm'});
-
-
     modalRef.componentInstance.booking = booking;
-    modalRef.closed.subscribe({
-      next:()=>{
-          this.updateCalendar.next();
-        }
-    })
   }
 }

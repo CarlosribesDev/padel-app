@@ -4,9 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Booking } from '../models/Booking';
 
-
-
-
 @Injectable({
     providedIn: 'root'
 })

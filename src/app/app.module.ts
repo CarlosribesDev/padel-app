@@ -1,5 +1,5 @@
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
-import { BookingPickerComponent } from './pages/booking-page/booking-picker/booking-picker.component';
+import { BookingPickerComponent } from './pages/booking-page/date-picker/date-picker.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { authInterceptorProviders } from './service/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
