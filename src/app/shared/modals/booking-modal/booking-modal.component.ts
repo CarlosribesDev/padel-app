@@ -24,7 +24,7 @@ export class BookingModalComponent implements OnInit {
   loginForm!: FormGroup;
   submit: boolean = false;
 
-  booking!: Booking;
+  booking: Booking = new Booking();
 
   constructor(
     public modalRef: NgbActiveModal,

@@ -128,6 +128,7 @@ export class BookingPickerComponent  implements OnInit{
     this.days.push(...this.getDaysFromMonth());
     this.validDays = this.days.filter(day => day >= this.today && day < this.getNextWeekDate(this.today))
     this.selectedDay = this.validDays[0];
+    this.selectedDayEvent.emit(this.selectedDay)
   }
 
   getNextWeekDate(date: Date): Date {

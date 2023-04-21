@@ -1,5 +1,5 @@
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
-import { BookingPickerComponent } from './pages/booking-page/date-picker/date-picker.component';
+import { BookingPickerComponent } from './pages/booking-page/components/date-picker/date-picker.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { authInterceptorProviders } from './service/auth.interceptor';
 import { SharedModule } from './shared/shared.module';
@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 import { CourtCardComponent } from './pages/admin-page/components/court-card/court-card.component';
+import { CourtBookingComponent } from './pages/booking-page/components/court-booking/court-booking.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CourtCardComponent } from './pages/admin-page/components/court-card/cou
     BookingPickerComponent,
     BookingPickerComponent,
     ProfilePageComponent,
-    CourtCardComponent
+    CourtCardComponent,
+    CourtBookingComponent
 
   ],
   imports: [

@@ -48,7 +48,7 @@ export class ProfilePageComponent implements OnInit {
       if(userId){
         this.userService.getUserById(userId).subscribe({
           next:(user: User)=> {
-            this.bookings = user.bookings.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+            this.bookings = user.bookings.sort((a,b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
 
 
           }
