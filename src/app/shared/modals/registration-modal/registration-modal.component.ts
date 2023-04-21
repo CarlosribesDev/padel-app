@@ -1,11 +1,9 @@
 import { UserService } from '../../../service/user.service';
 import { NewUserRequest } from 'app/models/request/NewUserRequest';
-import { User } from 'app/models/User';
 import { Component, OnInit} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {  NgbActiveModal  } from '@ng-bootstrap/ng-bootstrap';
 import { first, firstValueFrom, take, map } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { FormValidators } from 'app/shared/utils/form-validators';
 
 import Swal from 'sweetalert2';
@@ -58,7 +56,6 @@ export class RegistrationModalComponent implements OnInit {
   checkUsernameExist(): Promise<boolean>{
     return firstValueFrom(this.userService.findAll({ usernames: this.username.value })
     .pipe(first(), map(users =>  users.length > 0)))
-
   }
 
   async onSubmit() {
@@ -66,7 +63,7 @@ export class RegistrationModalComponent implements OnInit {
     this.usernameExist = await this.checkUsernameExist();
 
     if(this.registrationForm.status !== 'VALID' || this.usernameExist) return;
-    
+
     const user: NewUserRequest = {
       name: this.name.value,
       surname: this.surname.value,
@@ -97,11 +94,3 @@ export class RegistrationModalComponent implements OnInit {
     })
   }
 }
-  // error: (error) => {
-      //   this.modalRef.close()
-      //   Swal.fire({
-      //     text: 'Error al registrar usuario',
-      //     icon: 'error',
-      //     confirmButtonText: 'Aceptar'
-      //   })
-      // }

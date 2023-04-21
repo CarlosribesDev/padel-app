@@ -1,17 +1,10 @@
-import { UserBookingRequest } from './../../../models/request/UserBookingRequest';
 import { BookingService } from './../../../service/booking.service';
 import { Booking } from './../../../models/Booking';
-import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TokenResponse } from '../../../models/request/TokenReponse';
-import { LoginRequest } from '../../../models/request/LoginRequest';
 import { AuthService } from '../../../service/auth.service';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from 'app/service/user.service';
-import { User } from 'app/models/User';
-
 import Swal from 'sweetalert2';
 import { mergeMap } from 'rxjs';
 
@@ -20,7 +13,7 @@ import { mergeMap } from 'rxjs';
   selector: 'app-booking-modal',
   templateUrl: './booking-modal.component.html',
 })
-export class BookingModalComponent implements OnInit {
+export class BookingModalComponent {
 
   loginForm!: FormGroup;
   submit: boolean = false;
@@ -33,24 +26,14 @@ export class BookingModalComponent implements OnInit {
     private bookingService: BookingService,
     private userService: UserService
     ) {
-
-
-    }
-
-  ngOnInit(): void {
-
   }
 
   close(){
-    console.log("cerrando");
-
     this.modalRef.close();
   }
 
   onSubmit(): void {
-
     const username = this.authService.getUsername();
-    console.log(this.booking);
 
     this.userService.findAll({ usernames: [username]}).pipe(
       mergeMap((user) => {
@@ -67,8 +50,6 @@ export class BookingModalComponent implements OnInit {
       }
     })
 
-
-    this.modalRef.close();
-
+    this.close();
   }
 }

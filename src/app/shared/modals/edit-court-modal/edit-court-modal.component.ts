@@ -1,9 +1,6 @@
-import { UserService } from '../../../service/user.service';
-
-import { AuthService } from '../../../service/auth.service';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Schedule } from 'app/models/Schedule';
 import Swal from 'sweetalert2';
 import { CourtService } from 'app/service/court.service ';
@@ -27,14 +24,10 @@ export class EditCourtModalComponent implements OnInit {
   constructor(
     public modalRef: NgbActiveModal,
     private fb: FormBuilder,
-    private authService: AuthService,
     private courtService: CourtService,
     private scheduleService: ScheduleService,
-    private userService: UserService,
-    private cdr: ChangeDetectorRef,
-
     ) {
-
+      
       this.courtForm = this.fb.group({
         name: ['', [Validators.required]],
         price: ['', [Validators.required]],
@@ -47,14 +40,6 @@ export class EditCourtModalComponent implements OnInit {
   get schedule(): FormControl  { return this.courtForm.get('schedule') as FormControl }
 
   ngOnInit(): void {
-
-
-
-
-
-
-
-
     this.courtForm = this.fb.group({
       name: [this.court.name, [Validators.required]],
       price: [this.court.price, [Validators.required]],
@@ -64,7 +49,6 @@ export class EditCourtModalComponent implements OnInit {
     this.scheduleService.findAll().subscribe({
       next: schedules => {
         this.schedules = schedules;
-
       }
     })
   }
@@ -74,7 +58,6 @@ export class EditCourtModalComponent implements OnInit {
   }
 
   onSubmit(): void {
-
     this.court.name = this.name.value;
     this.court.price = this.price.value,
     this.court.schedule = this.schedule.value as Schedule
@@ -91,14 +74,6 @@ export class EditCourtModalComponent implements OnInit {
       }
     })
 
-
     this.courtForm.reset();
-  }
-
-  AddHour(): void {
-
-
-
-
   }
 }
