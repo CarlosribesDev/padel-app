@@ -45,8 +45,12 @@ export class AuthService {
     this.router.navigate(['']);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  getToken(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  getUsername(): string {
+    return localStorage.getItem('username') || '';
   }
 
   getRole() {
@@ -54,27 +58,10 @@ export class AuthService {
     return this.http.get<string>(`${this.rootURL}/${username}`);
   }
 
-  setUser(user: User): void{
-    localStorage.setItem('user', JSON.stringify(user));
-  }
 
-  getUser(): User | null {
-    const strUser: string | null = localStorage.getItem('user');
 
-    if(!strUser){
-      this.logOut;
-      return null;
-    }
 
-    return JSON.parse(strUser)
-  }
 
-  getUserRole(): Observable<any> {
-    const user: User | null = this.getUser()
-    const id = user?.id;
-
-    return this.http.get<any>(`${this.rootURL}/role/${id}`);
-  }
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.rootURL}/current-user`)

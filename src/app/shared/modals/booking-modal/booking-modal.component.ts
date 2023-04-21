@@ -13,6 +13,7 @@ import { UserService } from 'app/service/user.service';
 import { User } from 'app/models/User';
 
 import Swal from 'sweetalert2';
+import { mergeMap } from 'rxjs';
 
 
 @Component({
@@ -28,20 +29,13 @@ export class BookingModalComponent implements OnInit {
 
   constructor(
     public modalRef: NgbActiveModal,
-    private fb: FormBuilder,
-    private router: Router,
     private authService: AuthService,
     private bookingService: BookingService,
+    private userService: UserService
     ) {
 
-      this.loginForm = fb.group({
-        username: [null, [Validators.required]],
-        password: [null, [Validators.required]],
-      })
-    }
 
-  get username(): FormControl  { return this.loginForm.get('username') as FormControl }
-  get password(): FormControl  { return this.loginForm.get('password') as FormControl }
+    }
 
   ngOnInit(): void {
 
@@ -55,30 +49,23 @@ export class BookingModalComponent implements OnInit {
 
   onSubmit(): void {
 
-    const user: User | null = this.authService.getUser();
-    const game: any | undefined = this.booking;
+    const username = this.authService.getUsername();
+    console.log(this.booking);
 
-    if(user === null || game === undefined || this.booking.id === undefined){
-      return;
-    }
-
-    const request: UserBookingRequest = {
-        userId: user.id,
-        gameId: game.id
-    }
-
-    this.bookingService.setUserToBooking(this.booking.id, request).subscribe({
-      next: (booking:Booking)=> {
-        this.booking = booking;
+    this.userService.findAll({ usernames: [username]}).pipe(
+      mergeMap((user) => {
+        this.booking.userId = user[0].id;
+        return this.bookingService.update(this.booking, this.booking.id);
+      })
+    ).subscribe({
+      next: ()=> {
         Swal.fire({
           text: 'Reserva realizada',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         })
-
       }
     })
-
 
 
     this.modalRef.close();

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Court } from 'app/models/Court';
-import { EditCourtModalComponent } from 'app/shared/modals/edit-court-modal/edit-court-modal.component';
 import { CourtType } from 'app/models/CourtType';
 import { Booking } from 'app/models/Booking';
+import { BookingModalComponent } from 'app/shared/modals/booking-modal/booking-modal.component';
 
 @Component({
   selector: 'app-court-booking',
@@ -32,18 +32,19 @@ export class CourtBookingComponent implements OnInit {
     }
   }
 
-  openBookingModal() {
+  openBookingModal(booking: Booking) {
 
     const options = {
       size: 'sm',
     };
 
-    const modal = this.modalService.open(EditCourtModalComponent, options);
+    const modal = this.modalService.open(BookingModalComponent, options);
 
-    modal.componentInstance.court = this.court;
+    modal.componentInstance.booking = booking;
     modal.hidden.subscribe({
       next:() => {
-        this.fecthDataEvent.emit();
+        console.log("chapao");
+
       }
     })
   }

@@ -2,15 +2,15 @@ import { User } from "./User";
 import { Court } from "./Court";
 
 export class Booking {
-  id: number ;
+  id: number;
   court: Court;
   dateTime: Date;
-  user: User;
+  userId: number;
 
   constructor(json: any = {}){
     this.id = json.id;
     this.court = json.court;
     this.dateTime = json.date;
-    this.user = json.user;
+    this.userId = json.userId;
   }
 }

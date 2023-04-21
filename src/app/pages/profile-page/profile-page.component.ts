@@ -44,7 +44,7 @@ export class ProfilePageComponent implements OnInit {
       })
     }
     else if(this.role === 'ROLE_USER'){
-      const userId = this.authService.getUser()?.id;
+      const userId = 11;
       if(userId){
         this.userService.getUserById(userId).subscribe({
           next:(user: User)=> {

@@ -5,7 +5,7 @@
     <h5> Precio : {{ court.price }} &euro;</h5>
     <div class="d-flex flex-column">
       <ng-container *ngFor="let booking of bookings">
-        <button class="btn btn-primary mt-2">{{ booking.dateTime | date: 'HH:mm' }}</button>
+        <button (click)="openBookingModal(booking)"  [disabled]="booking.userId !== 0"  class="btn mt-2 btn-primary" [ngClass]="booking.userId === 0 ? 'btn-primary' : 'btn-danger' ">{{ booking.dateTime | date: 'HH:mm' }}</button>
       </ng-container>
     </div>
   </div>

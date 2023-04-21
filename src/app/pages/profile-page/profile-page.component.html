@@ -1,6 +1,6 @@
 <div class="d-flex flex-column align-items-center bg-scape-image">
   <div *ngIf="role === 'ROLE_USER' ">
-    <h3 class="text-white mb-3" *ngIf="user">Reservas de {{user.name}} {{user.surname}}</h3>
+    <h3 class="text-white mb-3" *ngIf="user">Reservas de {{user.name}} {{user.username}}</h3>
     <div class="m-2" *ngFor="let booking of bookings">
       <div class="card bg-dark text-white" style="width: 22rem;">
         <img src={{getImageSrc(booking)}} class="card-img-top"  style="height: 200px;">
@@ -20,7 +20,7 @@
         <img src={{getImageSrc(booking)}} class="card-img-top"  style="height: 200px;">
         <div class="card-body">
           <h5 class="card-title">{{booking.court.name}}</h5>
-          <p class="card-text" >{{ booking.dateTime | date: 'dd/MM/yyyy' }} Usuario: {{booking.user.name}} {{booking.user.surname}}</p>
+          <p class="card-text" >{{ booking.dateTime | date: 'dd/MM/yyyy' }} Usuario: {{booking.userId }} {{booking.userId }}</p>
           <button class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancelar reserva</button>
         </div>
       </div>

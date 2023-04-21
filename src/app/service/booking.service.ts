@@ -13,16 +13,16 @@ export class BookingService {
 
     constructor(private http: HttpClient){}
 
-    setUserToBooking(id: number, userBookingRequest: UserBookingRequest): Observable<Booking> {
-      return this.http.put<Booking>(`${this.rootURL}/${id}`, userBookingRequest);
-    }
-
     delete(id: number): Observable<void> {
       return this.http.delete<void>(`${this.rootURL}/${id}`);
     }
 
-    findById(id: number): Observable<Booking>{
+    findById(id: number): Observable<Booking> {
       return this.http.get<Booking>(`${this.rootURL}/${id}`);
+    }
+
+    update(booking: Booking, id: number): Observable<Booking> {
+      return this.http.put<Booking>(`${this.rootURL}/${id}`, booking);
     }
 
     findAll(params?: any): Observable<Booking[]> {
