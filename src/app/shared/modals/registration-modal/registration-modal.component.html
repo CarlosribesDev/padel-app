@@ -1,8 +1,8 @@
-<div class=" bg-dark text-white text-center p-2 ">
+<div class=" color-primary text-white text-center p-2 ">
 		<h4 class="modal-title">Usuario nuevo</h4>
 </div>
 <form novalidate [formGroup]="registrationForm">
-	<div class="modal-body bg-secondary">
+	<div class="modal-body bg-color-primary">
     <div class="row">
       <div class="form-group col-md-6">
         <label>Nombre</label>
@@ -44,7 +44,7 @@
       </div>
     </div>
 	</div>
-  <div class="modal-footer bg-dark ">
+  <div class="modal-footer color-primary ">
       <button [disabled]="false" class="btn btn-primary" (click)="onSubmit()">Registrarse</button>
       <button type="button" class="btn btn-danger" (click)="modalRef.close()">Cancelar</button>
   </div>

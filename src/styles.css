@@ -33,8 +33,12 @@
   color: #fff;
 }
 
+.bg-color-primary {
+  background-color: #8fc4f053;
+}
+
 .my-btn-primary:hover {
-  background-color: #0056b3;
+  background-color: #68aaf116;
 }
 
 .my-btn-lg {

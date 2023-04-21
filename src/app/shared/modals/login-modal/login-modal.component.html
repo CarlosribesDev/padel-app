@@ -1,7 +1,7 @@
-<div class="modal-header bg-dark text-white">
+<div class="modal-header color-primary text-white">
 		<h4 class="modal-title">Iniciar sesión</h4>
 	</div>
-	<div class="modal-body bg-secondary">
+	<div class="modal-body bg-color-primary">
 		<form [formGroup]="loginForm">
       <div class="form-group mt-3">
         <label>Usuario</label>
@@ -13,7 +13,7 @@
       </div>
 		</form>
 	</div>
-	<div class="modal-footer bg-dark">
+	<div class="modal-footer color-primary">
 		<button [disabled]="this.loginForm.status !== 'VALID'" type="button" class="btn btn-primary" (click)="onSubmit()">Iniciar</button>
     <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
 </div>
