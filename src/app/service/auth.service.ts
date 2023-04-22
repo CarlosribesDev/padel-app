@@ -60,9 +60,6 @@ export class AuthService {
 
   isAdmin(): Observable<boolean> {
     return this.getRole().pipe(map( role => {
-      console.log(role)
-      console.log("COMPARATION")
-      console.log(role == 'ADMIN')
       return role == 'ADMIN'
     }));
   }

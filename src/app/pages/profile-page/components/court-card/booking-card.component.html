@@ -1,0 +1,10 @@
+<div class="card color-primary text-white me-2" style="width: 14rem;">
+  <div class="card-body">
+    <strong> Reservador por: {{ user.username | titlecase }}</strong>
+    <p><strong>{{ booking.court.name | titlecase }}</strong></p>
+    <p>Fecha: {{ booking.dateTime | date: 'dd/MM/yyyy' }} </p>
+    <p>Hora: {{ booking.dateTime | date: 'HH:mm' }}</p>
+    <p>Precio: {{ booking.court.price }} €</p>
+    <button class="btn btn-danger mt-2" (click)="deleteBooking()">Cancelar</button>
+  </div>
+</div>

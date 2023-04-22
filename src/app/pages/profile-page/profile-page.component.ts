@@ -4,7 +4,6 @@ import { Booking } from './../../models/Booking';
 import { AuthService } from './../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'app/models/User';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,49 +12,56 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ProfilePageComponent implements OnInit {
   role: string = '';
+  isAdmin = false;
+  isLogged = false;
   bookings: Booking[] = [];
-  user: User | null = null
+  user: User = new User();
 
   constructor(private authService: AuthService,
               private userService: UserService,
               private bookignService: BookingService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initValues();
+  }
 
-    // this.role = await firstValueFrom(this.authService.getRole());
-
-    // this.loadBookings();
-
+  initValues() {
+    this.isLogged = this.authService.isLogged();
+    this.authService.isAdmin().subscribe({
+      next: (isAdmin) => {
+        this.isAdmin = isAdmin;
+      }
+    })
+    this.userService.getLoggedUser().subscribe({
+      next: (user) => {
+        if(user) {
+          this.user = user;
+          this.loadBookings();
+        }
+      }
+    })
   }
 
   loadBookings() {
     this.bookings = []
-    if(this.role === 'ROLE_ADMIN'){
+
+    if(!this.isLogged) {
+      return;
+    }
+
+    if(this.isAdmin){
       this.userService.findAll().subscribe({
         next:(users: User[])=>{
-          console.log(users);
-
-            users.forEach(user => {
-              this.bookings = this.bookings.concat(user.bookings);
-              console.log(this.bookings);
-
-            })
+          this.bookings = users.reduce((acum, user) => acum.concat(user.bookings || []), new Array<Booking>());
         }
       })
     }
-    else if(this.role === 'ROLE_USER'){
-      const userId = 11;
-      if(userId){
-        this.userService.getUserById(userId).subscribe({
-          next:(user: User)=> {
-            this.bookings = user.bookings.sort((a,b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
-
-
-          }
-
-        })
-      }
-
+    else {
+      this.userService.findById(this.user.id).subscribe({
+        next:(user: User)=> {
+          this.bookings = user.bookings.sort((a,b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+        }
+      })
     }
   }
 
@@ -68,18 +74,7 @@ export class ProfilePageComponent implements OnInit {
     date.getFullYear() == today.getFullYear()
   }
 
-  getImageSrc(booking: Booking): string{
 
-    if(!booking.court){
-      return '../../../../assets/image.jpg';
-    }
-
-    switch(booking.court.name){
-      case  "THE_DEN": return'../../../../assets/the-den.jpg';
-      case "HAUNTED_HOUSE" : return '../../../../assets/haunted-house.jpg'; break;
-      default : return '../../../../assets/image.jpg'
-    }
-  }
 
   deleteBooking(id: number | undefined){
     if(id){

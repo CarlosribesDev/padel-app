@@ -1,4 +1,3 @@
-import { User } from "./User";
 import { Court } from "./Court";
 
 export class Booking {

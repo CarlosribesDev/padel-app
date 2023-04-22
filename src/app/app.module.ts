@@ -16,6 +16,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { BookingPageComponent } from './pages/booking-page/booking-page.component';
 import { CourtCardComponent } from './pages/admin-page/components/court-card/court-card.component';
 import { CourtBookingComponent } from './pages/booking-page/components/court-booking/court-booking.component';
+import { BookingCardComponent } from './pages/profile-page/components/court-card/booking-card.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CourtBookingComponent } from './pages/booking-page/components/court-boo
     BookingPickerComponent,
     ProfilePageComponent,
     CourtCardComponent,
-    CourtBookingComponent
+    CourtBookingComponent,
+    BookingCardComponent
 
   ],
   imports: [

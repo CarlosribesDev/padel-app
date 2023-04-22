@@ -2,7 +2,7 @@ import { NewUserRequest } from 'app/models/request/NewUserRequest';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, map, retry } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { User} from 'app/models/User';
 
@@ -31,7 +31,16 @@ export class UserService {
     return this.http.get<User[]>(this.rootURL, options);
   }
 
-  getUserById(id: number):Observable<User>{
+  getUsername(): string {
+    return localStorage.getItem('username') || '';
+  }
+
+  getLoggedUser(): Observable<User | null> {
+    const username = this.getUsername();
+    return this.findAll({ usernames: [username]} ).pipe(map(users => users.length ? users[0] : null));
+  }
+
+  findById(id: number): Observable<User>{
     return this.http.get<User>(`${this.rootURL}/${id}`);
   }
 

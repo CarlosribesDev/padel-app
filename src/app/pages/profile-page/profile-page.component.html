@@ -1,29 +1,5 @@
-<div class="d-flex flex-column align-items-center bg-scape-image">
-  <div *ngIf="role === 'ROLE_USER' ">
-    <h3 class="text-white mb-3" *ngIf="user">Reservas de {{user.name}} {{user.username}}</h3>
-    <div class="m-2" *ngFor="let booking of bookings">
-      <div class="card bg-dark text-white" style="width: 22rem;">
-        <img src={{getImageSrc(booking)}} class="card-img-top"  style="height: 200px;">
-        <div class="card-body">
-          <h5 class="card-title">{{booking.court.name}}</h5>
-          <p class="card-text" >{{booking.dateTime | date: 'dd/MM/yyyy' }}</p>
-          <button [disabled]="isToday(booking.dateTime)" class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancelar reserva</button>
-          <p *ngIf="isToday(booking.dateTime)" class="text-danger mt-2">No se pueden cancelar reservas el mismo día</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="role === 'ROLE_ADMIN' ">
-    <h1 class="text-white mb-3">ADMIN</h1>
-    <div class="m-2" *ngFor="let booking of bookings">
-      <div class="card bg-dark text-white" style="width: 22rem;">
-        <img src={{getImageSrc(booking)}} class="card-img-top"  style="height: 200px;">
-        <div class="card-body">
-          <h5 class="card-title">{{booking.court.name}}</h5>
-          <p class="card-text" >{{ booking.dateTime | date: 'dd/MM/yyyy' }} Usuario: {{booking.userId }} {{booking.userId }}</p>
-          <button class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancelar reserva</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="d-flex align-items-center ms-5 mt-5">
+  <ng-container *ngFor="let booking of bookings">
+    <app-booking-card [booking]="booking"></app-booking-card>
+  </ng-container>
 </div>
