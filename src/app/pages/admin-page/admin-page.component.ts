@@ -19,12 +19,8 @@ export class AdminPageComponent implements OnInit {
   schedules : Schedule[] = [];
   selectedSchedule: Schedule | null =  null;
   weekDaysSelected: number[] = [];
-
   sessionsSelected: Date [] = [];
   courts: Court[] = [];
-
-
-
   resetEvent: Subject<void> = new Subject<void>();
 
   constructor(
@@ -38,16 +34,17 @@ export class AdminPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.fecthData();
-    this.authService.getRole().subscribe({
-      next: (role)=>{
-        if(role !== 'ADMIN') {
+
+    this.authService.isAdmin().subscribe({
+      next: (isAdmin) => {
+        if(!isAdmin) {
           this.router.navigate(['/']);
         }
       },
       error: () => {
         this.router.navigate(['/']);
       }
-  })
+    })
   }
 
   fecthData(): void{

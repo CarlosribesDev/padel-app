@@ -4,7 +4,7 @@ import { UserService } from '../../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { LoginModalComponent } from '../../shared/modals/login-modal/login-modal.component';
 import { RegistrationModalComponent } from '../../shared/modals/registration-modal/registration-modal.component';
-import { debounceTime } from 'rxjs';
+import { debounceTime, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +13,8 @@ import { debounceTime } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
+  isLogged = false;
+  isAdmin = false;
 
 
   constructor(
@@ -21,16 +23,24 @@ export class HeaderComponent implements OnInit {
     private modalService: NgbModal) { }
 
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.setLoginSuscription();
   }
 
   setLoginSuscription() {
     this.authService.loginStatus.pipe(debounceTime(500)).subscribe({
-      next:(logStatus: boolean)=> {
+      next: (logStatus: boolean) => {
+        this.isLogged = logStatus;
 
+        if(!this.isLogged) {
+          this.isAdmin = false;
+        }
 
-
+        this.authService.isAdmin().subscribe({
+          next:(isAdmin) => {
+            this.isAdmin = isAdmin;
+          }
+        })
       }
     })
   }
@@ -49,9 +59,6 @@ export class HeaderComponent implements OnInit {
     this.authService.logOut();
   }
 
-  public Regis(){
-
-  }
 }
 
 

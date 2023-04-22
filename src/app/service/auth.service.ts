@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { User } from 'app/models/User';
 import { TokenResponse } from '../models/request/TokenReponse';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, map } from 'rxjs';
 import { LoginRequest } from '../models/request/LoginRequest';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -29,6 +29,7 @@ export class AuthService {
   logIn(tokenReponse: TokenResponse): void{
       localStorage.setItem('token', tokenReponse.token);
       localStorage.setItem('username', tokenReponse.username);
+      this.loginStatus.next(true);
   }
 
   isLogged(): boolean {
@@ -40,9 +41,8 @@ export class AuthService {
   logOut(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    localStorage.removeItem('role');
-    this.loginStatus.next(false);
     this.router.navigate(['']);
+    this.loginStatus.next(false);
   }
 
   getToken(): string {
@@ -56,6 +56,15 @@ export class AuthService {
   getRole() {
     const username = localStorage.getItem('username');
     return this.http.get<string>(`${this.rootURL}/${username}`);
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.getRole().pipe(map( role => {
+      console.log(role)
+      console.log("COMPARATION")
+      console.log(role == 'ADMIN')
+      return role == 'ADMIN'
+    }));
   }
 
 
