@@ -1,9 +1,8 @@
 import { NewUserRequest } from 'app/models/request/NewUserRequest';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, retry } from 'rxjs/operators';
-import { environment } from 'environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User} from 'app/models/User';
 
 @Injectable({
@@ -14,6 +13,10 @@ export class UserService {
   private readonly rootURL: string = `api/user`;
 
   constructor(private http: HttpClient) { }
+
+  findById(id: number): Observable<User>{
+    return this.http.get<User>(`${this.rootURL}/${id}`);
+  }
 
   findAll(params?: any): Observable<User[]> {
     let httpParams = new HttpParams();
@@ -31,8 +34,8 @@ export class UserService {
     return this.http.get<User[]>(this.rootURL, options);
   }
 
-  getUsername(): string {
-    return localStorage.getItem('username') || '';
+  saveUser(newUserRequest: NewUserRequest): Observable<User> {
+    return this.http.post<User>(this.rootURL, newUserRequest);
   }
 
   getLoggedUser(): Observable<User | null> {
@@ -40,11 +43,8 @@ export class UserService {
     return this.findAll({ usernames: [username]} ).pipe(map(users => users.length ? users[0] : null));
   }
 
-  findById(id: number): Observable<User>{
-    return this.http.get<User>(`${this.rootURL}/${id}`);
+  private getUsername(): string {
+    return localStorage.getItem('username') || '';
   }
 
-  saveUser(newUserRequest: NewUserRequest): Observable<User> {
-    return this.http.post<User>(this.rootURL, newUserRequest);
-  }
 }

@@ -13,15 +13,11 @@ export class CourtService {
 
     constructor(private http: HttpClient){}
 
-    findById(id: number): Observable<Court>{
-      return this.http.get<Court>(`${this.rootURL}/${id}`);
+    findAll(): Observable<Court[]>{
+      return this.http.get<Court[]>(`${this.rootURL}`);
     }
 
     update(id:number, court: Court): Observable<Court> {
       return this.http.put<Court>(`${this.rootURL}/${id}`, court)
-    }
-
-    findAll(): Observable<Court[]>{
-      return this.http.get<Court[]>(`${this.rootURL}`);
     }
 }

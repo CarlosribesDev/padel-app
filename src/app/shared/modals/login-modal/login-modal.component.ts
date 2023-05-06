@@ -1,9 +1,8 @@
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { TokenResponse } from '../../../models/request/TokenReponse';
 import { LoginRequest } from '../../../models/request/LoginRequest';
 import { AuthService } from './../../../service/auth.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -13,23 +12,24 @@ import { firstValueFrom } from 'rxjs';
   selector: 'app-login-modal',
   templateUrl: './login-modal.component.html',
 })
-export class LoginModalComponent {
+export class LoginModalComponent implements OnInit {
 
   loginForm!: FormGroup;
   submit: boolean = false;
 
   constructor(
-    public modalRef: NgbActiveModal,
+    private modalRef: NgbActiveModal,
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService
-    ) {
+  ){}
 
-      this.loginForm = fb.group({
-        username: [null, [Validators.required]],
-        password: [null, [Validators.required]],
-      })
-    }
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: [null, [Validators.required]],
+      password: [null, [Validators.required]],
+    })
+  }
 
   get username(): FormControl  { return this.loginForm.get('username') as FormControl }
   get password(): FormControl  { return this.loginForm.get('password') as FormControl }
@@ -52,15 +52,14 @@ export class LoginModalComponent {
       next: async (tokenResp: TokenResponse) => {
         this.authService.logIn(tokenResp);
 
+        const isAdmin = await firstValueFrom(this.authService.isAdmin());
 
-        const role = await firstValueFrom(this.authService.getRole());
-        if(role === 'ADMIN') {
+        if(isAdmin) {
           this.router.navigate(['/admin']);
         }
         this.modalRef.close();
       },
-      error: (errorResponse: HttpErrorResponse) => {
-
+      error: () => {
         Swal.fire({
           text: 'Datos invalidos',
           icon: 'error',
